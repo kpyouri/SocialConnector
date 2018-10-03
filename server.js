@@ -15,6 +15,7 @@ app.use(bodyParser.json());
 //DB config
 const db = require('./keys').mongoURI
 //Connect to mongoDB
+console.log(db);
 mongoose
 .connect(db)
 .then(() => console.log('MongoDB connected'))
@@ -24,11 +25,11 @@ mongoose
 app.use(passport.initialize());
 
 // Passport config
-require('./config/passport')(passport);
+require('./config/passport')(passport)
 
 app.use('/api/users', users);
 app.use('/api/profile', profile);
 app.use('/api/posts', posts);
 
-const port = 8000;
+const port = 9000;
 app.listen(port,() => console.log(`Server running on port ${port}`));
