@@ -28,8 +28,6 @@ const Post = require('../../models/Post');
     }
 );
 
-router.get('/', (req, res) => {
-    
-});
+
 
 module.exports = router;
