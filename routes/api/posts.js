@@ -22,9 +22,14 @@ const Post = require('../../models/Post');
             name: req.body.name,
             avatar: req.body.avatar
         });
+    
 
         newPost.save().then(post => res.json(newPost));
     }
 );
+
+router.get('/', (req, res) => {
+    
+});
 
 module.exports = router;

@@ -6,6 +6,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../keys');
 const passport = require('passport');
+const validateRegisterInput = require('../../validation/register');
+const validateLoginInput = require('../../validation/login');
 
 router.get('/test', (req, res) => res.json({
     msg: 'Users work'
@@ -16,6 +18,14 @@ router.get('/test', (req, res) => res.json({
 // @desc Register user
 // @access Public 
 router.post('/register', (req, res) => {
+
+    const {errors, isValid} = validateRegisterInput(req.body)
+
+    //Check for validation
+    if (!isValid){
+        return res.status(400).json(errors);
+    }
+
     User.findOne({
             email: req.body.email
         })
@@ -57,6 +67,13 @@ router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
+    const {errors, isValid} = validateLoginInput(req.body)
+
+    //Check for validation
+    if (!isValid){
+        return res.status(400).json(errors);
+    }
+
     User.findOne({
             email
         })
@@ -83,8 +100,7 @@ router.post('/login', (req, res) => {
                         jwt.sign(
                             payload,
                             keys.secretOrKey, {
-                                expiresIn: 3600
-                            },
+                                expiresIn: 3600},
                             (err, token) => {
                                 if (err) throw err;
                                 res.json({
@@ -107,10 +123,11 @@ router.post('/login', (req, res) => {
 // @desc   return current user
 // @access Private 
 router.get('/current', passport.authenticate('jwt', {
-    session: false
-}), (req, res) => {
+    session: false}), (req, res) => {
     res.json({
-        msg: 'Success'
+        id: req.user.id,
+        name: req.user.name,
+        email: req.user.email
     });
 })
 
