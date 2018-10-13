@@ -1,9 +1,25 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+const passport = require('passport');
 
+//Post model
 const Post = require('../../models/Post');
+//Profile model
+const Profile = require('../../models/Profile');
 
-// router.get('/test', (req, res) => res.json({msg: 'Posts work'}));
+// //Validation
+// const validatePostInput = require('../../validation/post');
+
+// @route GET api/posts
+// @desc  Get posts
+// @access Public
+router.get('/', (req, res) => {
+    Post.find()
+    .sort({ date: -1 })
+    .then(posts => res.json(posts))
+    .catch(err => res.status(404).json({ nopostsfound: 'No posts found' }));
+});
 
 // @route  POST api/posts
 // @desc   Create posts
