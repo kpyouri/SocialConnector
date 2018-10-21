@@ -6,10 +6,15 @@ import './App.css';
 import {BrowserRouter as Router, Route} from 'react-router-dom';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import {Provider} from 'react-redux';
+import store from './store';
+
+
 
 class App extends Component {
   render() {
     return (
+      <Provider store={store}>
       <Router>
       <div className="App">
       <Navbar />
@@ -21,6 +26,7 @@ class App extends Component {
         <Footer />
       </div>
       </Router>
+      </Provider>
     );
   }
 }
