@@ -33,19 +33,23 @@ class Register extends Component {
       password2: this.state.password2
     };
 
-    this.props.registeruser(newUser);
+    this.props.registeruser(newUser, this.props.history);
 
 
   }
 
-  render() {
-    const {errors} = this.props;
+componentWillReceiveProps(nextProps){
+  if (nextProps.errors){
+    this.setState({errors: nextProps.errors});
+  }
+} 
 
-    const { user } = this.props.auth;
+  render() {
+    const {errors} = this.state;
+
 
     return (
       <div className="register">
-      {user ? user.name : null}
       <div className="container">
         <div className="row">
           <div className="col-md-8 m-auto">
